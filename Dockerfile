@@ -1,9 +1,6 @@
-#stage 1
-FROM node:latest as node
+FROM node:14.20.0 as node
 WORKDIR /app
 COPY . .
-RUN npm install
-RUN npm run build --prod
-#stage 2
-FROM nginx:alpine
-COPY --from=node /app/dist/sport-club /usr/share/nginx/html
+FROM nginx:1.23.3
+COPY --from=node /app/dist/sport-club/ /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/
